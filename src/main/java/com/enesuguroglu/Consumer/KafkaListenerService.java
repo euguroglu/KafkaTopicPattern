@@ -3,17 +3,19 @@ package com.enesuguroglu.Consumer;
 import com.enesuguroglu.Producer.KafkaProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-public class KafkaListener {
+@Component
+public class KafkaListenerService {
 
     @Autowired
     KafkaProducerService kafkaProducerService;
 
-    //Create api post end-point to receive post message
-    @org.springframework.kafka.annotation.KafkaListener(topicPattern = "kafka.*", groupId = "")
+    @KafkaListener(topicPattern = "kafka.*", groupId = "test-grp")
     public void send(String eventMessage, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) throws Exception {
 
 
