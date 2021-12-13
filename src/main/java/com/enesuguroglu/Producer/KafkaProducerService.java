@@ -6,19 +6,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-@Component
+@Service
 @Slf4j
 public class KafkaProducerService {
 
-    private KafkaTemplate<Integer, String> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendOnFailure(String queue, String message) throws Exception {
 
-        ListenableFuture<SendResult<Integer, String>> listenableFuture = kafkaTemplate.send(queue, message);
-        listenableFuture.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+        ListenableFuture<SendResult<String, String>> listenableFuture = kafkaTemplate.send(queue, message);
+        listenableFuture.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
             @SneakyThrows
             @Override
@@ -28,7 +29,7 @@ public class KafkaProducerService {
 
 
             @Override
-            public void onSuccess(SendResult<Integer, String> result) {
+            public void onSuccess(SendResult<String, String> result) {
 
             }
         });
